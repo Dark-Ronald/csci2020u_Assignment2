@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
-import javafx.scene.Group;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.BorderPane;
@@ -23,10 +15,6 @@ import java.net.*;
 import java.io.*;
 import javafx.scene.control.SelectionMode;
 
-/**
- *
- * @author pwner
- */
 public class client extends Application {
     File localDir;
     String[] remoteFiles;
@@ -73,8 +61,6 @@ public class client extends Application {
             }
         });
         
-        //ListView<String> clientFileList = new ListView(getLocalFileList());
-        
         buttons.add(downloadBtn, 0, 0);
         buttons.add(uploadBtn, 1, 0);
         root.setTop(buttons);
@@ -85,26 +71,8 @@ public class client extends Application {
         primaryStage.setTitle("File Sharer");
         primaryStage.setScene(scene);
         primaryStage.show();
-        
-        //connect to server
-//        try {
-//            server = new Socket("localhost", 8080);
-//            
-//        }
-//        catch (UnknownHostException e) {
-//            System.out.println("UknownHostException");
-//        }
-//        catch (IOException e) {
-//            System.out.println("IOException");
-//        }
-        
-        
-        
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         client.args = args;
         launch(args);
@@ -119,7 +87,6 @@ public class client extends Application {
     }
     
     ObservableList<String> getRemoteFileList() {
-        System.out.println("getting remote file list");
         ObservableList<String> files = FXCollections.observableArrayList();
         try {
             server = new Socket(args[0], 8080);
@@ -130,19 +97,17 @@ public class client extends Application {
             String fileName = null;
             while ((fileName = reader.readLine()) != null) {
                 files.add(fileName);
-                System.out.println(fileName);
             }
             writer.close();
             reader.close();
             server.close();
         }
         catch (UnknownHostException e) {
-            System.out.println("UknownHostException");
+            System.err.println("UknownHostException");
         }
         catch (IOException e) {
-            System.out.println("IOException");
+            System.err.println("IOException");
         }
-        System.out.println("remote file list gotten");
         return files;
     }
     
@@ -165,23 +130,7 @@ public class client extends Application {
                 writer.write(block, 0, blockLength);
                 block = new char[blockLength];
             }
-            //writer.write(block, 0, blockLength);
             
-//            int blockLength = 20;
-//            char[] block = new char[blockLength];
-//            
-//            while (reader.read(block, 0, blockLength) != -1) {
-//                writer.write(block, 0, blockLength);
-//                block = new char[blockLength];
-//            }
-//            writer.write(block, 0, blockLength);
-            
-//            String line = null;
-//            while ((line = reader.readLine()) != null) {
-//                writer.write(line);
-//                writer.newLine();
-//                System.out.println("line read: " + line);
-//            }
             reader.close();
             writer.flush();
             writer.close();
@@ -190,10 +139,10 @@ public class client extends Application {
         }
         
         catch (UnknownHostException e) {
-            System.out.println("UknownHostException");
+            System.err.println("UknownHostException");
         }
         catch (IOException e) {
-            System.out.println("download IOException");
+            System.err.println("download IOException");
         }
         
         
@@ -227,10 +176,10 @@ public class client extends Application {
         }
         
         catch (UnknownHostException e) {
-            System.out.println("UknownHostException");
+            System.err.println("UknownHostException");
         }
         catch (IOException e) {
-            System.out.println("upload IOException");
+            System.err.println("upload IOException");
         } 
         
     }
